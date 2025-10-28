@@ -35,6 +35,8 @@ RUN composer install --no-dev --optimize-autoloader
 # Copy Apache configuration
 COPY docker/apache.conf /etc/apache2/sites-available/000-default.conf
 
+RUN mkdir -p /var/www/html/database && touch /var/www/html/database/database.sqlite
+
 # Expose port 80
 EXPOSE 80
 
