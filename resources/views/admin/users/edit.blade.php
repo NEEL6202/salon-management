@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.modern')
 
 @section('title', 'Edit User - Admin Dashboard')
 
@@ -30,8 +30,8 @@
                         
                         <div class="row">
                             <div class="col-md-6">
-                                <div class="mb-3">
-                                    <label for="name" class="form-label">Full Name *</label>
+                                <div class="form-group">
+                                    <label class="form-label" for="name">Full Name *</label>
                                     <input type="text" class="form-control @error('name') is-invalid @enderror" 
                                            id="name" name="name" value="{{ old('name', $user->name) }}" required>
                                     @error('name')
@@ -40,8 +40,8 @@
                                 </div>
                             </div>
                             <div class="col-md-6">
-                                <div class="mb-3">
-                                    <label for="email" class="form-label">Email Address *</label>
+                                <div class="form-group">
+                                    <label class="form-label" for="email">Email Address *</label>
                                     <input type="email" class="form-control @error('email') is-invalid @enderror" 
                                            id="email" name="email" value="{{ old('email', $user->email) }}" required>
                                     @error('email')
@@ -53,8 +53,8 @@
 
                         <div class="row">
                             <div class="col-md-6">
-                                <div class="mb-3">
-                                    <label for="phone" class="form-label">Phone Number</label>
+                                <div class="form-group">
+                                    <label class="form-label" for="phone">Phone Number</label>
                                     <input type="tel" class="form-control @error('phone') is-invalid @enderror" 
                                            id="phone" name="phone" value="{{ old('phone', $user->phone) }}">
                                     @error('phone')
@@ -63,8 +63,8 @@
                                 </div>
                             </div>
                             <div class="col-md-6">
-                                <div class="mb-3">
-                                    <label for="gender" class="form-label">Gender</label>
+                                <div class="form-group">
+                                    <label class="form-label" for="gender">Gender</label>
                                     <select class="form-select @error('gender') is-invalid @enderror" id="gender" name="gender">
                                         <option value="">Select Gender</option>
                                         <option value="male" {{ old('gender', $user->gender) === 'male' ? 'selected' : '' }}>Male</option>
@@ -78,8 +78,8 @@
                             </div>
                         </div>
 
-                        <div class="mb-3">
-                            <label for="date_of_birth" class="form-label">Date of Birth</label>
+                        <div class="form-group">
+                            <label class="form-label" for="date_of_birth">Date of Birth</label>
                             <input type="date" class="form-control @error('date_of_birth') is-invalid @enderror" 
                                    id="date_of_birth" name="date_of_birth" 
                                    value="{{ old('date_of_birth', $user->date_of_birth ? $user->date_of_birth->format('Y-m-d') : '') }}">
@@ -88,8 +88,8 @@
                             @enderror
                         </div>
 
-                        <div class="mb-3">
-                            <label for="address" class="form-label">Address</label>
+                        <div class="form-group">
+                            <label class="form-label" for="address">Address</label>
                             <textarea class="form-control @error('address') is-invalid @enderror" 
                                       id="address" name="address" rows="3">{{ old('address', $user->address) }}</textarea>
                             @error('address')
@@ -99,8 +99,8 @@
 
                         <div class="row">
                             <div class="col-md-6">
-                                <div class="mb-3">
-                                    <label for="password" class="form-label">New Password</label>
+                                <div class="form-group">
+                                    <label class="form-label" for="password">New Password</label>
                                     <input type="password" class="form-control @error('password') is-invalid @enderror" 
                                            id="password" name="password">
                                     @error('password')
@@ -110,8 +110,8 @@
                                 </div>
                             </div>
                             <div class="col-md-6">
-                                <div class="mb-3">
-                                    <label for="password_confirmation" class="form-label">Confirm New Password</label>
+                                <div class="form-group">
+                                    <label class="form-label" for="password_confirmation">Confirm New Password</label>
                                     <input type="password" class="form-control" 
                                            id="password_confirmation" name="password_confirmation">
                                 </div>
@@ -120,8 +120,8 @@
 
                         <div class="row">
                             <div class="col-md-6">
-                                <div class="mb-3">
-                                    <label for="role" class="form-label">Role *</label>
+                                <div class="form-group">
+                                    <label class="form-label" for="role">Role *</label>
                                     <select class="form-select @error('role') is-invalid @enderror" id="role" name="role" required>
                                         <option value="">Select Role</option>
                                         <option value="super_admin" {{ old('role', $user->roles->first()->name ?? '') === 'super_admin' ? 'selected' : '' }}>Super Admin</option>
@@ -136,8 +136,8 @@
                                 </div>
                             </div>
                             <div class="col-md-6">
-                                <div class="mb-3">
-                                    <label for="salon_id" class="form-label">Assign to Salon</label>
+                                <div class="form-group">
+                                    <label class="form-label" for="salon_id">Assign to Salon</label>
                                     <select class="form-select @error('salon_id') is-invalid @enderror" id="salon_id" name="salon_id">
                                         <option value="">No Salon (Customer)</option>
                                         @foreach($salons as $salon)
@@ -153,8 +153,8 @@
                             </div>
                         </div>
 
-                        <div class="mb-3">
-                            <label for="avatar" class="form-label">Profile Picture</label>
+                        <div class="form-group">
+                            <label class="form-label" for="avatar">Profile Picture</label>
                             @if($user->avatar)
                                 <div class="mb-2">
                                     <img src="{{ $user->avatar_url }}" alt="Current Avatar" class="rounded" width="100">
@@ -168,8 +168,8 @@
                             <div class="form-text">Upload a new profile picture (optional)</div>
                         </div>
 
-                        <div class="mb-3">
-                            <label for="status" class="form-label">Status</label>
+                        <div class="form-group">
+                            <label class="form-label" for="status">Status</label>
                             <select class="form-select @error('status') is-invalid @enderror" id="status" name="status">
                                 <option value="active" {{ old('status', $user->status) === 'active' ? 'selected' : '' }}>Active</option>
                                 <option value="inactive" {{ old('status', $user->status) === 'inactive' ? 'selected' : '' }}>Inactive</option>
@@ -202,31 +202,31 @@
                         <p class="text-muted">{{ $user->email }}</p>
                     </div>
                     
-                    <div class="mb-3">
+                    <div class="form-group">
                         <strong>Current Role:</strong>
                         @foreach($user->roles as $role)
                             <span class="badge bg-primary">{{ ucfirst(str_replace('_', ' ', $role->name)) }}</span>
                         @endforeach
                     </div>
                     
-                    <div class="mb-3">
+                    <div class="form-group">
                         <strong>Salon:</strong>
                         <p class="text-muted">{{ $user->salon->name ?? 'No salon assigned' }}</p>
                     </div>
                     
-                    <div class="mb-3">
+                    <div class="form-group">
                         <strong>Status:</strong>
                         <span class="badge bg-{{ $user->status === 'active' ? 'success' : 'secondary' }}">
                             {{ ucfirst($user->status) }}
                         </span>
                     </div>
                     
-                    <div class="mb-3">
+                    <div class="form-group">
                         <strong>Member Since:</strong>
                         <p class="text-muted">{{ $user->created_at->format('M d, Y') }}</p>
                     </div>
                     
-                    <div class="mb-3">
+                    <div class="form-group">
                         <strong>Last Updated:</strong>
                         <p class="text-muted">{{ $user->updated_at->format('M d, Y H:i') }}</p>
                     </div>

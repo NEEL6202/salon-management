@@ -1,36 +1,39 @@
-@extends('layouts.app')
+@extends('layouts.modern')
 
-@section('title', 'Create Subscription Plan - Admin Dashboard')
+@section('title', 'Create Subscription Plan - SalonPro')
 
 @section('content')
-<div class="content">
-    <!-- Page Header -->
-    <div class="d-flex justify-content-between align-items-center mb-4">
+<!-- Page Header -->
+<div class="page-header">
+    <div class="d-flex justify-content-between align-items-center">
         <div>
-            <h1 class="h3 mb-0">Create Subscription Plan</h1>
-            <p class="text-muted">Add a new subscription plan for salons</p>
+            <h1 class="page-title">Create Subscription Plan</h1>
+            <p class="page-subtitle">Add a new subscription plan for salons</p>
         </div>
-        <div>
-            <a href="{{ route('admin.subscription-plans.index') }}" class="btn btn-outline-secondary">
-                <i class="fas fa-arrow-left me-2"></i>Back to Plans
+        <div class="page-actions">
+            <a href="{{ route('admin.subscription-plans.index') }}" class="btn btn-secondary">
+                <i class="fas fa-arrow-left"></i>
+                <span>Back to Plans</span>
             </a>
         </div>
     </div>
+</div>
 
-    <div class="row">
-        <div class="col-lg-8">
-            <div class="card">
-                <div class="card-header">
-                    <h5 class="card-title mb-0">Plan Information</h5>
-                </div>
-                <div class="card-body">
+<div class="card">
+    <div class="card-header">
+        <h3 class="card-title">
+            <i class="fas fa-credit-card"></i>
+            Plan Information
+        </h3>
+    </div>
+    <div class="card-body">
                     <form action="{{ route('admin.subscription-plans.store') }}" method="POST">
                         @csrf
                         
                         <div class="row">
                             <div class="col-md-6">
-                                <div class="mb-3">
-                                    <label for="name" class="form-label">Plan Name *</label>
+                                <div class="form-group">
+                                    <label class="form-label" for="name">Plan Name *</label>
                                     <input type="text" class="form-control @error('name') is-invalid @enderror" 
                                            id="name" name="name" value="{{ old('name') }}" required>
                                     @error('name')
@@ -39,8 +42,8 @@
                                 </div>
                             </div>
                             <div class="col-md-6">
-                                <div class="mb-3">
-                                    <label for="slug" class="form-label">Plan Slug</label>
+                                <div class="form-group">
+                                    <label class="form-label" for="slug">Plan Slug</label>
                                     <input type="text" class="form-control @error('slug') is-invalid @enderror" 
                                            id="slug" name="slug" value="{{ old('slug') }}" readonly>
                                     @error('slug')
@@ -53,8 +56,8 @@
 
                         <div class="row">
                             <div class="col-md-6">
-                                <div class="mb-3">
-                                    <label for="price" class="form-label">Price *</label>
+                                <div class="form-group">
+                                    <label class="form-label" for="price">Price *</label>
                                     <div class="input-group">
                                         <span class="input-group-text">$</span>
                                         <input type="number" class="form-control @error('price') is-invalid @enderror" 
@@ -66,8 +69,8 @@
                                 </div>
                             </div>
                             <div class="col-md-6">
-                                <div class="mb-3">
-                                    <label for="billing_cycle" class="form-label">Billing Cycle *</label>
+                                <div class="form-group">
+                                    <label class="form-label" for="billing_cycle">Billing Cycle *</label>
                                     <select class="form-select @error('billing_cycle') is-invalid @enderror" id="billing_cycle" name="billing_cycle" required>
                                         <option value="">Select Billing Cycle</option>
                                         <option value="monthly" {{ old('billing_cycle') === 'monthly' ? 'selected' : '' }}>Monthly</option>
@@ -81,8 +84,8 @@
                             </div>
                         </div>
 
-                        <div class="mb-3">
-                            <label for="description" class="form-label">Description</label>
+                        <div class="form-group">
+                            <label class="form-label" for="description">Description</label>
                             <textarea class="form-control @error('description') is-invalid @enderror" 
                                       id="description" name="description" rows="3">{{ old('description') }}</textarea>
                             @error('description')
@@ -92,8 +95,8 @@
 
                         <div class="row">
                             <div class="col-md-4">
-                                <div class="mb-3">
-                                    <label for="max_employees" class="form-label">Max Employees *</label>
+                                <div class="form-group">
+                                    <label class="form-label" for="max_employees">Max Employees *</label>
                                     <input type="number" class="form-control @error('max_employees') is-invalid @enderror" 
                                            id="max_employees" name="max_employees" value="{{ old('max_employees', 5) }}" min="1" required>
                                     @error('max_employees')
@@ -102,8 +105,8 @@
                                 </div>
                             </div>
                             <div class="col-md-4">
-                                <div class="mb-3">
-                                    <label for="max_services" class="form-label">Max Services *</label>
+                                <div class="form-group">
+                                    <label class="form-label" for="max_services">Max Services *</label>
                                     <input type="number" class="form-control @error('max_services') is-invalid @enderror" 
                                            id="max_services" name="max_services" value="{{ old('max_services', 20) }}" min="1" required>
                                     @error('max_services')
@@ -112,8 +115,8 @@
                                 </div>
                             </div>
                             <div class="col-md-4">
-                                <div class="mb-3">
-                                    <label for="max_products" class="form-label">Max Products *</label>
+                                <div class="form-group">
+                                    <label class="form-label" for="max_products">Max Products *</label>
                                     <input type="number" class="form-control @error('max_products') is-invalid @enderror" 
                                            id="max_products" name="max_products" value="{{ old('max_products', 50) }}" min="1" required>
                                     @error('max_products')
@@ -123,8 +126,8 @@
                             </div>
                         </div>
 
-                        <div class="mb-3">
-                            <label for="features" class="form-label">Features</label>
+                        <div class="form-group">
+                            <label class="form-label" for="features">Features</label>
                             <div id="features-container">
                                 <div class="input-group mb-2">
                                     <input type="text" class="form-control" name="features[]" placeholder="Enter a feature">
@@ -141,68 +144,42 @@
 
                         <div class="row">
                             <div class="col-md-6">
-                                <div class="mb-3">
-                                    <div class="form-check">
+                                <div class="form-group">
+                                    <div class="form-check form-switch">
                                         <input class="form-check-input" type="checkbox" id="is_active" name="is_active" value="1" 
                                                {{ old('is_active', true) ? 'checked' : '' }}>
                                         <label class="form-check-label" for="is_active">
-                                            Active Plan
+                                            <strong>Active Plan</strong><br>
+                                            <small class="text-muted">Make this plan available for subscription</small>
                                         </label>
                                     </div>
-                                    <div class="form-text">Make this plan available for subscription</div>
                                 </div>
                             </div>
                             <div class="col-md-6">
-                                <div class="mb-3">
-                                    <div class="form-check">
+                                <div class="form-group">
+                                    <div class="form-check form-switch">
                                         <input class="form-check-input" type="checkbox" id="is_popular" name="is_popular" value="1" 
                                                {{ old('is_popular') ? 'checked' : '' }}>
                                         <label class="form-check-label" for="is_popular">
-                                            Popular Plan
+                                            <strong>Popular Plan</strong><br>
+                                            <small class="text-muted">Mark as recommended/featured plan</small>
                                         </label>
                                     </div>
-                                    <div class="form-text">Mark as recommended plan</div>
                                 </div>
                             </div>
                         </div>
 
-                        <div class="d-flex justify-content-end gap-2">
-                            <a href="{{ route('admin.subscription-plans.index') }}" class="btn btn-secondary">Cancel</a>
+                        <div class="d-flex gap-2 mt-4">
+                            <a href="{{ route('admin.subscription-plans.index') }}" class="btn btn-secondary">
+                                <i class="fas fa-times"></i>
+                                <span>Cancel</span>
+                            </a>
                             <button type="submit" class="btn btn-primary">
-                                <i class="fas fa-save me-2"></i>Create Plan
+                                <i class="fas fa-save"></i>
+                                <span>Create Plan</span>
                             </button>
                         </div>
                     </form>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-lg-4">
-            <div class="card">
-                <div class="card-header">
-                    <h5 class="card-title mb-0">Plan Preview</h5>
-                </div>
-                <div class="card-body">
-                    <div class="text-center mb-4">
-                        <h4 id="preview-name">Plan Name</h4>
-                        <h2 class="text-primary" id="preview-price">$0.00</h2>
-                        <p class="text-muted" id="preview-cycle">Billing Cycle</p>
-                    </div>
-                    
-                    <ul class="list-unstyled" id="preview-features">
-                        <li class="mb-2">
-                            <i class="fas fa-check text-success me-2"></i>
-                            <span id="preview-employees">0</span> Employees
-                        </li>
-                        <li class="mb-2">
-                            <i class="fas fa-check text-success me-2"></i>
-                            <span id="preview-services">0</span> Services
-                        </li>
-                        <li class="mb-2">
-                            <i class="fas fa-check text-success me-2"></i>
-                            <span id="preview-products">0</span> Products
-                        </li>
-                    </ul>
                 </div>
             </div>
         </div>
@@ -213,14 +190,21 @@
 @push('scripts')
 <script>
 // Auto-generate slug from name
-document.getElementById('name').addEventListener('input', function() {
-    const name = this.value;
-    const slug = name.toLowerCase()
-        .replace(/[^a-z0-9 -]/g, '')
-        .replace(/\s+/g, '-')
-        .replace(/-+/g, '-')
-        .trim('-');
-    document.getElementById('slug').value = slug;
+document.addEventListener('DOMContentLoaded', function() {
+    const nameInput = document.getElementById('name');
+    const slugInput = document.getElementById('slug');
+    
+    if (nameInput && slugInput) {
+        nameInput.addEventListener('input', function() {
+            const name = this.value;
+            const slug = name.toLowerCase()
+                .replace(/[^a-z0-9 -]/g, '')
+                .replace(/\s+/g, '-')
+                .replace(/-+/g, '-')
+                .trim('-');
+            slugInput.value = slug;
+        });
+    }
 });
 
 // Add feature field
@@ -229,7 +213,7 @@ function addFeature() {
     const div = document.createElement('div');
     div.className = 'input-group mb-2';
     div.innerHTML = `
-        <input type="text" class="form-control" name="features[]" placeholder="Enter a feature">
+        <input type="text" class="form-control" name="features[]" placeholder="Enter a feature (e.g., Email Support)">
         <button type="button" class="btn btn-outline-danger" onclick="removeFeature(this)">
             <i class="fas fa-minus"></i>
         </button>
@@ -239,32 +223,11 @@ function addFeature() {
 
 // Remove feature field
 function removeFeature(button) {
-    button.parentElement.remove();
-}
-
-// Live preview
-document.addEventListener('DOMContentLoaded', function() {
-    const nameInput = document.getElementById('name');
-    const priceInput = document.getElementById('price');
-    const cycleInput = document.getElementById('billing_cycle');
-    const employeesInput = document.getElementById('max_employees');
-    const servicesInput = document.getElementById('max_services');
-    const productsInput = document.getElementById('max_products');
-
-    function updatePreview() {
-        document.getElementById('preview-name').textContent = nameInput.value || 'Plan Name';
-        document.getElementById('preview-price').textContent = '$' + (parseFloat(priceInput.value) || 0).toFixed(2);
-        document.getElementById('preview-cycle').textContent = cycleInput.value || 'Billing Cycle';
-        document.getElementById('preview-employees').textContent = employeesInput.value || 0;
-        document.getElementById('preview-services').textContent = servicesInput.value || 0;
-        document.getElementById('preview-products').textContent = productsInput.value || 0;
+    if (document.querySelectorAll('#features-container .input-group').length > 1) {
+        button.parentElement.remove();
+    } else {
+        alert('At least one feature field is required');
     }
-
-    [nameInput, priceInput, cycleInput, employeesInput, servicesInput, productsInput].forEach(input => {
-        input.addEventListener('input', updatePreview);
-    });
-
-    updatePreview();
-});
+}
 </script>
-@endpush 
+@endpush

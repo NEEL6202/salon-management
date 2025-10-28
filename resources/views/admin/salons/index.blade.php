@@ -1,26 +1,29 @@
-@extends('layouts.app')
+@extends('layouts.modern')
 
-@section('title', 'Manage Salons - Admin Dashboard')
+@section('title', 'Manage Salons - SalonPro')
 
 @section('content')
-<div class="content">
-    <!-- Page Header -->
-    <div class="d-flex justify-content-between align-items-center mb-4">
+<!-- Page Header -->
+<div class="page-header">
+    <div class="d-flex justify-content-between align-items-center">
         <div>
-            <h1 class="h3 mb-0">Manage Salons</h1>
-            <p class="text-muted">View and manage all registered salons</p>
+            <h1 class="page-title">Manage Salons</h1>
+            <p class="page-subtitle">View and manage all registered salons</p>
         </div>
-        <div class="d-flex gap-2">
+        <div class="page-actions">
             <a href="{{ route('admin.salons.create') }}" class="btn btn-primary">
-                <i class="fas fa-plus me-2"></i>Add New Salon
+                <i class="fas fa-plus"></i>
+                <span>Add Salon</span>
             </a>
         </div>
     </div>
+</div>
 
-    <!-- Filters and Search -->
-    <div class="card mb-4">
-        <div class="card-body">
-            <form method="GET" action="{{ route('admin.salons.index') }}" class="row g-3">
+<!-- Filters and Search -->
+<div class="card mb-3">
+    <div class="card-body">
+        <form method="GET" action="{{ route('admin.salons.index') }}">
+            <div class="row g-3">
                 <div class="col-md-4">
                     <input type="text" name="search" class="form-control" placeholder="Search salons..." 
                            value="{{ request('search') }}">
@@ -43,21 +46,23 @@
                     </select>
                 </div>
                 <div class="col-md-2">
-                    <button type="submit" class="btn btn-outline-primary w-100">
-                        <i class="fas fa-search me-2"></i>Filter
+                    <button type="submit" class="btn btn-primary w-100">
+                        <i class="fas fa-search"></i>
+                        <span>Filter</span>
                     </button>
                 </div>
-            </form>
-        </div>
+            </div>
+        </form>
     </div>
+</div>
 
-    <!-- Salons Table -->
-    <div class="card">
-        <div class="card-body p-0">
-            <div class="table-responsive">
-                <table class="table table-hover mb-0">
-                    <thead class="table-light">
-                        <tr>
+<!-- Salons Table -->
+<div class="card">
+    <div class="card-body" style="padding: 0;">
+        <div class="table-responsive">
+            <table class="table">
+                <thead>
+                    <tr>
                             <th>Salon</th>
                             <th>Owner</th>
                             <th>Contact</th>
@@ -127,26 +132,26 @@
                                     <small class="text-muted">{{ $salon->created_at ? $salon->created_at->diffForHumans() : '' }}</small>
                                 </div>
                             </td>
-                            <td>
-                                <div class="btn-group btn-group-sm">
-                                    <a href="{{ route('admin.salons.show', $salon) }}" 
-                                       class="btn btn-outline-primary" 
-                                       title="View Details">
-                                        <i class="fas fa-eye"></i>
-                                    </a>
-                                    <a href="{{ route('admin.salons.edit', $salon) }}" 
-                                       class="btn btn-outline-warning" 
-                                       title="Edit Salon">
-                                        <i class="fas fa-edit"></i>
-                                    </a>
-                                    <button type="button" 
-                                            class="btn btn-outline-danger" 
-                                            title="Delete Salon"
-                                            onclick="deleteSalon({{ $salon->id }})">
-                                        <i class="fas fa-trash"></i>
-                                    </button>
-                                </div>
-                            </td>
+                        <td>
+                            <div class="table-actions">
+                                <a href="{{ route('admin.salons.show', $salon) }}" 
+                                   class="action-btn" 
+                                   title="View">
+                                    <i class="fas fa-eye"></i>
+                                </a>
+                                <a href="{{ route('admin.salons.edit', $salon) }}" 
+                                   class="action-btn" 
+                                   title="Edit">
+                                    <i class="fas fa-edit"></i>
+                                </a>
+                                <button type="button" 
+                                        class="action-btn delete" 
+                                        title="Delete"
+                                        onclick="deleteSalon({{ $salon->id }})">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
+                        </td>
                         </tr>
                         @empty
                         <tr>

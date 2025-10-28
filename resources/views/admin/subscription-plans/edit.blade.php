@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.modern')
 
 @section('title', 'Edit Subscription Plan')
 
@@ -28,8 +28,8 @@
                         
                         <div class="row">
                             <div class="col-md-6">
-                                <div class="mb-3">
-                                    <label for="name" class="form-label">Plan Name <span class="text-danger">*</span></label>
+                                <div class="form-group">
+                                    <label class="form-label" for="name">Plan Name <span class="text-danger">*</span></label>
                                     <input type="text" class="form-control @error('name') is-invalid @enderror" 
                                            id="name" name="name" value="{{ old('name', $subscriptionPlan->name) }}" required>
                                     @error('name')
@@ -38,8 +38,8 @@
                                 </div>
                             </div>
                             <div class="col-md-6">
-                                <div class="mb-3">
-                                    <label for="slug" class="form-label">Slug</label>
+                                <div class="form-group">
+                                    <label class="form-label" for="slug">Slug</label>
                                     <input type="text" class="form-control @error('slug') is-invalid @enderror" 
                                            id="slug" name="slug" value="{{ old('slug', $subscriptionPlan->slug) }}">
                                     <div class="form-text">Leave empty to auto-generate from name</div>
@@ -50,8 +50,8 @@
                             </div>
                         </div>
 
-                        <div class="mb-3">
-                            <label for="description" class="form-label">Description</label>
+                        <div class="form-group">
+                            <label class="form-label" for="description">Description</label>
                             <textarea class="form-control @error('description') is-invalid @enderror" 
                                       id="description" name="description" rows="3">{{ old('description', $subscriptionPlan->description) }}</textarea>
                             @error('description')
@@ -61,8 +61,8 @@
 
                         <div class="row">
                             <div class="col-md-4">
-                                <div class="mb-3">
-                                    <label for="price" class="form-label">Price <span class="text-danger">*</span></label>
+                                <div class="form-group">
+                                    <label class="form-label" for="price">Price <span class="text-danger">*</span></label>
                                     <div class="input-group">
                                         <span class="input-group-text">$</span>
                                         <input type="number" class="form-control @error('price') is-invalid @enderror" 
@@ -75,8 +75,8 @@
                                 </div>
                             </div>
                             <div class="col-md-4">
-                                <div class="mb-3">
-                                    <label for="billing_cycle" class="form-label">Billing Cycle <span class="text-danger">*</span></label>
+                                <div class="form-group">
+                                    <label class="form-label" for="billing_cycle">Billing Cycle <span class="text-danger">*</span></label>
                                     <select class="form-select @error('billing_cycle') is-invalid @enderror" 
                                             id="billing_cycle" name="billing_cycle" required>
                                         <option value="">Select Billing Cycle</option>
@@ -90,8 +90,8 @@
                                 </div>
                             </div>
                             <div class="col-md-4">
-                                <div class="mb-3">
-                                    <label for="trial_days" class="form-label">Trial Days</label>
+                                <div class="form-group">
+                                    <label class="form-label" for="trial_days">Trial Days</label>
                                     <input type="number" class="form-control @error('trial_days') is-invalid @enderror" 
                                            id="trial_days" name="trial_days" min="0" max="90" 
                                            value="{{ old('trial_days', $subscriptionPlan->trial_days) }}">
@@ -104,8 +104,8 @@
 
                         <div class="row">
                             <div class="col-md-4">
-                                <div class="mb-3">
-                                    <label for="max_employees" class="form-label">Max Employees <span class="text-danger">*</span></label>
+                                <div class="form-group">
+                                    <label class="form-label" for="max_employees">Max Employees <span class="text-danger">*</span></label>
                                     <input type="number" class="form-control @error('max_employees') is-invalid @enderror" 
                                            id="max_employees" name="max_employees" min="1" 
                                            value="{{ old('max_employees', $subscriptionPlan->max_employees) }}" required>
@@ -115,8 +115,8 @@
                                 </div>
                             </div>
                             <div class="col-md-4">
-                                <div class="mb-3">
-                                    <label for="max_services" class="form-label">Max Services <span class="text-danger">*</span></label>
+                                <div class="form-group">
+                                    <label class="form-label" for="max_services">Max Services <span class="text-danger">*</span></label>
                                     <input type="number" class="form-control @error('max_services') is-invalid @enderror" 
                                            id="max_services" name="max_services" min="1" 
                                            value="{{ old('max_services', $subscriptionPlan->max_services) }}" required>
@@ -126,8 +126,8 @@
                                 </div>
                             </div>
                             <div class="col-md-4">
-                                <div class="mb-3">
-                                    <label for="max_products" class="form-label">Max Products <span class="text-danger">*</span></label>
+                                <div class="form-group">
+                                    <label class="form-label" for="max_products">Max Products <span class="text-danger">*</span></label>
                                     <input type="number" class="form-control @error('max_products') is-invalid @enderror" 
                                            id="max_products" name="max_products" min="1" 
                                            value="{{ old('max_products', $subscriptionPlan->max_products) }}" required>
@@ -140,7 +140,7 @@
 
                         <div class="row">
                             <div class="col-md-6">
-                                <div class="mb-3">
+                                <div class="form-group">
                                     <div class="form-check">
                                         <input class="form-check-input" type="checkbox" id="is_active" name="is_active" 
                                                {{ old('is_active', $subscriptionPlan->is_active) ? 'checked' : '' }}>
@@ -151,7 +151,7 @@
                                 </div>
                             </div>
                             <div class="col-md-6">
-                                <div class="mb-3">
+                                <div class="form-group">
                                     <div class="form-check">
                                         <input class="form-check-input" type="checkbox" id="is_popular" name="is_popular" 
                                                {{ old('is_popular', $subscriptionPlan->is_popular) ? 'checked' : '' }}>
@@ -163,7 +163,7 @@
                             </div>
                         </div>
 
-                        <div class="mb-3">
+                        <div class="form-group">
                             <label class="form-label">Features</label>
                             <div id="features-container">
                                 @if($subscriptionPlan->features && count($subscriptionPlan->features) > 0)
