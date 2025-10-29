@@ -87,6 +87,12 @@
                 <div class="menu-section">
                     <div class="menu-section-title">Content</div>
                     <div class="menu-item">
+                        <a href="{{ route('admin.landing-page.index') }}" class="menu-link {{ request()->routeIs('admin.landing-page.*') ? 'active' : '' }}">
+                            <i class="menu-icon fas fa-home"></i>
+                            <span class="menu-text">Landing Page</span>
+                        </a>
+                    </div>
+                    <div class="menu-item">
                         <a href="{{ route('admin.blogs.index') }}" class="menu-link {{ request()->routeIs('admin.blogs.*') ? 'active' : '' }}">
                             <i class="menu-icon fas fa-newspaper"></i>
                             <span class="menu-text">Blog Posts</span>

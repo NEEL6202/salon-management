@@ -73,6 +73,10 @@
                         <!-- Content -->
                         <div class="nav-section">
                             <div class="nav-section-title">Content</div>
+                            <a href="{{ route('admin.landing-page.index') }}" class="nav-link {{ request()->routeIs('admin.landing-page.*') ? 'active' : '' }}">
+                                <i class="fas fa-home nav-icon"></i>
+                                <span class="nav-text">Landing Page</span>
+                            </a>
                             <a href="{{ route('admin.blogs.index') }}" class="nav-link {{ request()->routeIs('admin.blogs.*') ? 'active' : '' }}">
                                 <i class="fas fa-newspaper nav-icon"></i>
                                 <span class="nav-text">Blog Posts</span>

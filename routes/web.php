@@ -26,6 +26,39 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+// Landing Pages
+Route::get('/about', function () {
+    return view('about');
+})->name('about');
+
+Route::get('/features', function () {
+    return view('features');
+})->name('features');
+
+Route::get('/contact', function () {
+    return view('contact');
+})->name('contact');
+
+// Public Blog Pages
+Route::get('/blog', [\App\Http\Controllers\BlogController::class, 'index'])->name('blog.index');
+Route::get('/blog/{slug}', [\App\Http\Controllers\BlogController::class, 'show'])->name('blog.show');
+
+Route::post('/contact', function (\Illuminate\Http\Request $request) {
+    $request->validate([
+        'name' => 'required|string|max:255',
+        'email' => 'required|email',
+        'phone' => 'nullable|string|max:20',
+        'subject' => 'required|string',
+        'message' => 'required|string|max:1000',
+    ]);
+    
+    // Here you would normally send an email or save to database
+    // For now, we'll just redirect back with success message
+    
+    return redirect()->route('contact')
+        ->with('success', 'Thank you for contacting us! We\'ll get back to you soon.');
+})->name('contact.submit');
+
 // Test route for debugging
 Route::get('/test-login', function () {
     return response()->json([
@@ -201,6 +234,13 @@ Route::middleware(['auth', 'role:super_admin'])->prefix('admin')->name('admin.')
     Route::get('/blogs/export', [\App\Http\Controllers\Admin\AdminBlogController::class, 'export'])->name('blogs.export');
     Route::get('/blogs/stats', [\App\Http\Controllers\Admin\AdminBlogController::class, 'getStats'])->name('blogs.stats');
     Route::post('/blogs/{blog}/toggle-status', [\App\Http\Controllers\Admin\AdminBlogController::class, 'toggleStatus'])->name('blogs.toggle-status');
+
+    // Landing Page Management
+    Route::get('/landing-page', [\App\Http\Controllers\Admin\LandingPageController::class, 'index'])->name('landing-page.index');
+    Route::post('/landing-page/initialize', [\App\Http\Controllers\Admin\LandingPageController::class, 'initialize'])->name('landing-page.initialize');
+    Route::get('/landing-page/{id}/edit', [\App\Http\Controllers\Admin\LandingPageController::class, 'edit'])->name('landing-page.edit');
+    Route::put('/landing-page/{id}', [\App\Http\Controllers\Admin\LandingPageController::class, 'update'])->name('landing-page.update');
+    Route::post('/landing-page/{id}/toggle', [\App\Http\Controllers\Admin\LandingPageController::class, 'toggleStatus'])->name('landing-page.toggle');
     
     // Page Management (CMS)
     Route::resource('pages', \App\Http\Controllers\Admin\AdminPageController::class)->names('pages');
