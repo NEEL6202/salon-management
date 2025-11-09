@@ -119,6 +119,25 @@
                 @endrole
                 
                 @role('salon_owner|manager|employee')
+                <!-- Dashboard -->
+                <div class="menu-section">
+                    <div class="menu-section-title">Dashboard</div>
+                    <div class="menu-item">
+                        @role('salon_owner')
+                        <a href="{{ route('salon.dashboard') }}" class="menu-link {{ request()->routeIs('salon.dashboard') ? 'active' : '' }}">
+                            <i class="menu-icon fas fa-tachometer-alt"></i>
+                            <span class="menu-text">Dashboard</span>
+                        </a>
+                        @endrole
+                        @role('manager|employee')
+                        <a href="{{ route('employee.dashboard') }}" class="menu-link {{ request()->routeIs('employee.dashboard') ? 'active' : '' }}">
+                            <i class="menu-icon fas fa-tachometer-alt"></i>
+                            <span class="menu-text">My Dashboard</span>
+                        </a>
+                        @endrole
+                    </div>
+                </div>
+                
                 <!-- Business -->
                 <div class="menu-section">
                     <div class="menu-section-title">Business</div>
@@ -147,6 +166,21 @@
                 <!-- Operations -->
                 <div class="menu-section">
                     <div class="menu-section-title">Operations</div>
+                    @role('manager|employee')
+                    <div class="menu-item">
+                        <a href="{{ route('employee.appointments.index') }}" class="menu-link {{ request()->routeIs('employee.appointments.*') ? 'active' : '' }}">
+                            <i class="menu-icon fas fa-calendar-check"></i>
+                            <span class="menu-text">My Appointments</span>
+                        </a>
+                    </div>
+                    <div class="menu-item">
+                        <a href="{{ route('employee.customers.index') }}" class="menu-link {{ request()->routeIs('employee.customers.*') ? 'active' : '' }}">
+                            <i class="menu-icon fas fa-users"></i>
+                            <span class="menu-text">My Customers</span>
+                        </a>
+                    </div>
+                    @endrole
+                    @role('salon_owner')
                     <div class="menu-item">
                         <a href="{{ route('salon.calendar.index') }}" class="menu-link {{ request()->routeIs('salon.calendar.*') ? 'active' : '' }}">
                             <i class="menu-icon fas fa-calendar-alt"></i>
@@ -165,6 +199,7 @@
                             <span class="menu-text">Orders</span>
                         </a>
                     </div>
+                    @endrole
                 </div>
                 
                 @role('salon_owner')

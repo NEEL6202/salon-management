@@ -1,18 +1,22 @@
-@extends('layouts.app')
+@extends('layouts.modern')
 
-@section('title', 'Employee Profile')
+@section('title', 'My Profile')
 
 @section('content')
-<div class="container">
-    <div class="row">
-        <div class="col-md-12">
-            <div class="card">
-                <div class="card-header">
-                    <h4 class="mb-0">
-                        <i class="fas fa-user"></i> My Profile
-                    </h4>
-                </div>
-                <div class="card-body">
+<div class="page-header">
+    <div>
+        <h1 class="page-title">My Profile</h1>
+        <p class="page-subtitle">Manage your personal information</p>
+    </div>
+    <div class="page-actions">
+        <a href="{{ route('employee.dashboard') }}" class="btn btn-secondary">
+            <i class="fas fa-arrow-left"></i> Back to Dashboard
+        </a>
+    </div>
+</div>
+
+<div class="card mb-4">
+    <div class="card-body">
                     @if(session('success'))
                         <div class="alert alert-success">
                             {{ session('success') }}

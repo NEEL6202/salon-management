@@ -1,27 +1,22 @@
-@extends('layouts.app')
+@extends('layouts.modern')
 
 @section('title', 'My Appointments')
 
 @section('content')
-<div class="container-fluid">
-    <div class="row">
-        <div class="col-12">
-            <div class="d-flex justify-content-between align-items-center mb-4">
-                <h1 class="h3 mb-0">My Appointments</h1>
-                <div class="d-flex gap-2">
-                    <a href="{{ route('employee.appointments.create') }}" class="btn btn-primary">
-                        <i class="fas fa-plus"></i> New Appointment
-                    </a>
-                    <a href="{{ route('employee.dashboard') }}" class="btn btn-outline-secondary">
-                        <i class="fas fa-arrow-left"></i> Back to Dashboard
-                    </a>
-                </div>
-            </div>
-        </div>
+<div class="page-header">
+    <div>
+        <h1 class="page-title">My Appointments</h1>
+        <p class="page-subtitle">Manage your scheduled appointments</p>
     </div>
+    <div class="page-actions">
+        <a href="{{ route('employee.appointments.create') }}" class="btn btn-primary">
+            <i class="fas fa-plus"></i> New Appointment
+        </a>
+    </div>
+</div>
 
-    <!-- Filters -->
-    <div class="card mb-4">
+<!-- Filters -->
+<div class="card mb-4">
         <div class="card-body">
             <form method="GET" action="{{ route('employee.appointments.index') }}" class="row g-3">
                 <div class="col-md-3">

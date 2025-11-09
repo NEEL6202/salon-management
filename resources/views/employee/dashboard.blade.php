@@ -1,218 +1,128 @@
-@extends('layouts.app')
+@extends('layouts.modern')
 
 @section('title', 'Employee Dashboard')
 
 @push('styles')
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.css">
-<style>
-.calendar-container {
-    background: white;
-    border-radius: 10px;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-    padding: 20px;
-    margin-bottom: 20px;
-}
-
-.appointment-card {
-    background: white;
-    border-radius: 10px;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-    margin-bottom: 20px;
-    overflow: hidden;
-}
-
-.appointment-header {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    color: white;
-    padding: 15px 20px;
-}
-
-.appointment-body {
-    padding: 20px;
-}
-
-.status-badge {
-    padding: 5px 12px;
-    border-radius: 20px;
-    font-size: 12px;
-    font-weight: 600;
-    text-transform: uppercase;
-}
-
-.status-pending { background: #fff3cd; color: #856404; }
-.status-confirmed { background: #d1ecf1; color: #0c5460; }
-.status-completed { background: #d4edda; color: #155724; }
-.status-cancelled { background: #f8d7da; color: #721c24; }
-
-.quick-stats {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 20px;
-    margin-bottom: 30px;
-}
-
-.stat-card {
-    background: white;
-    border-radius: 10px;
-    padding: 20px;
-    text-align: center;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-    transition: transform 0.2s;
-}
-
-.stat-card:hover {
-    transform: translateY(-2px);
-}
-
-.stat-number {
-    font-size: 2rem;
-    font-weight: bold;
-    color: #667eea;
-    margin-bottom: 5px;
-}
-
-.stat-label {
-    color: #6c757d;
-    font-size: 0.9rem;
-}
-
-.customer-avatar {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    object-fit: cover;
-}
-
-.action-buttons {
-    display: flex;
-    gap: 10px;
-    flex-wrap: wrap;
-}
-
-.btn-sm {
-    padding: 5px 12px;
-    font-size: 12px;
-}
-
-.fc-event {
-    cursor: pointer;
-    border-radius: 5px;
-}
-
-.fc-event-title {
-    font-weight: 600;
-}
-
-.fc-toolbar-title {
-    font-size: 1.5rem;
-    font-weight: 600;
-}
-
-.fc-button {
-    background: #667eea !important;
-    border-color: #667eea !important;
-    border-radius: 5px !important;
-}
-
-.fc-button:hover {
-    background: #5a6fd8 !important;
-    border-color: #5a6fd8 !important;
-}
-
-.fc-button:focus {
-    box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25) !important;
-}
-
-@media (max-width: 768px) {
-    .quick-stats {
-        grid-template-columns: 1fr;
-    }
-    
-    .action-buttons {
-        flex-direction: column;
-    }
-    
-    .fc-toolbar {
-        flex-direction: column;
-        gap: 10px;
-    }
-}
-</style>
 @endpush
 
 @section('content')
-<div class="container-fluid">
-    <div class="row">
-        <div class="col-12">
-            <div class="d-flex justify-content-between align-items-center mb-4">
-                <h1 class="h3 mb-0">Employee Dashboard</h1>
-                <div class="d-flex gap-2">
-                    <button class="btn btn-primary" onclick="openNewAppointmentModal()">
-                        <i class="fas fa-plus"></i> New Appointment
-                    </button>
-                    <button class="btn btn-outline-secondary" onclick="refreshCalendar()">
-                        <i class="fas fa-sync-alt"></i> Refresh
-                    </button>
+<div class="page-header">
+    <div>
+        <h1 class="page-title">My Dashboard</h1>
+        <p class="page-subtitle">Welcome back, {{ Auth::user()->name }}!</p>
+    </div>
+    <div class="page-actions">
+        <button class="btn btn-primary" onclick="openNewAppointmentModal()">
+            <i class="fas fa-plus"></i> New Appointment
+        </button>
+    </div>
+</div>
+
+<!-- Quick Stats -->
+<div class="row g-3 mb-4">
+    <div class="col-md-3">
+        <div class="card stat-card">
+            <div class="card-body">
+                <div class="stat-icon bg-primary">
+                    <i class="fas fa-calendar-day"></i>
+                </div>
+                <div class="stat-content">
+                    <h3 class="stat-value">{{ $todayAppointments }}</h3>
+                    <p class="stat-label">Today's Appointments</p>
                 </div>
             </div>
         </div>
     </div>
-
-    <!-- Quick Stats -->
-    <div class="quick-stats">
-        <div class="stat-card">
-            <div class="stat-number">{{ $todayAppointments }}</div>
-            <div class="stat-label">Today's Appointments</div>
-        </div>
-        <div class="stat-card">
-            <div class="stat-number">{{ $pendingAppointments }}</div>
-            <div class="stat-label">Pending Appointments</div>
-        </div>
-        <div class="stat-card">
-            <div class="stat-number">{{ $totalCustomers }}</div>
-            <div class="stat-label">Total Customers</div>
-        </div>
-        <div class="stat-card">
-            <div class="stat-number">{{ $completedToday }}</div>
-            <div class="stat-label">Completed Today</div>
+    <div class="col-md-3">
+        <div class="card stat-card">
+            <div class="card-body">
+                <div class="stat-icon bg-warning">
+                    <i class="fas fa-clock"></i>
+                </div>
+                <div class="stat-content">
+                    <h3 class="stat-value">{{ $pendingAppointments }}</h3>
+                    <p class="stat-label">Pending</p>
+                </div>
+            </div>
         </div>
     </div>
+    <div class="col-md-3">
+        <div class="card stat-card">
+            <div class="card-body">
+                <div class="stat-icon bg-success">
+                    <i class="fas fa-check-circle"></i>
+                </div>
+                <div class="stat-content">
+                    <h3 class="stat-value">{{ $completedToday }}</h3>
+                    <p class="stat-label">Completed Today</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card stat-card">
+            <div class="card-body">
+                <div class="stat-icon bg-info">
+                    <i class="fas fa-users"></i>
+                </div>
+                <div class="stat-content">
+                    <h3 class="stat-value">{{ $totalCustomers }}</h3>
+                    <p class="stat-label">Total Customers</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
-    <!-- Calendar View -->
-    <div class="calendar-container">
+<!-- Calendar View -->
+<div class="card mb-4">
+    <div class="card-header">
+        <h5 class="card-title mb-0">
+            <i class="fas fa-calendar-alt"></i> My Schedule
+        </h5>
+    </div>
+    <div class="card-body">
         <div id="calendar"></div>
     </div>
+</div>
 
-    <!-- Recent Appointments -->
-    <div class="row">
-        <div class="col-12">
-            <div class="appointment-card">
-                <div class="appointment-header">
-                    <h5 class="mb-0">
-                        <i class="fas fa-clock"></i> Recent Appointments
-                    </h5>
-                </div>
-                <div class="appointment-body">
-                    @if($recentAppointments->count() > 0)
-                        <div class="table-responsive">
-                            <table class="table table-hover">
-                                <thead>
-                                    <tr>
-                                        <th>Customer</th>
-                                        <th>Service</th>
-                                        <th>Date & Time</th>
-                                        <th>Status</th>
-                                        <th>Actions</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
+<!-- Recent Appointments -->
+<div class="card">
+    <div class="card-header">
+        <h5 class="card-title mb-0">
+            <i class="fas fa-clock"></i> Recent Appointments
+        </h5>
+    </div>
+    <div class="card-body">
+        @if($recentAppointments->count() > 0)
+        <div class="table-responsive">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Customer</th>
+                        <th>Service</th>
+                        <th>Date & Time</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
                                     @foreach($recentAppointments as $appointment)
                                     <tr>
                                         <td>
                                             <div class="d-flex align-items-center">
-                                                <img src="{{ $appointment->customer->avatar_url }}" 
+                                                @if($appointment->customer->avatar)
+                                                <img src="{{ Storage::url($appointment->customer->avatar) }}" 
                                                      alt="{{ $appointment->customer->name }}" 
-                                                     class="customer-avatar me-2">
+                                                     class="rounded-circle me-2"
+                                                     style="width: 40px; height: 40px; object-fit: cover;">
+                                                @else
+                                                <div class="bg-secondary rounded-circle me-2 d-flex align-items-center justify-content-center"
+                                                     style="width: 40px; height: 40px;">
+                                                    <i class="fas fa-user text-white"></i>
+                                                </div>
+                                                @endif
                                                 <div>
                                                     <div class="fw-bold">{{ $appointment->customer->name }}</div>
                                                     <small class="text-muted">{{ $appointment->customer->phone }}</small>
@@ -228,31 +138,36 @@
                                             <small class="text-muted">{{ $appointment->appointment_time }}</small>
                                         </td>
                                         <td>
-                                            <span class="status-badge status-{{ $appointment->status }}">
-                                                {{ ucfirst($appointment->status) }}
-                                            </span>
+                                            @if($appointment->status === 'pending')
+                                                <span class="badge bg-warning">{{ ucfirst($appointment->status) }}</span>
+                                            @elseif($appointment->status === 'confirmed')
+                                                <span class="badge bg-info">{{ ucfirst($appointment->status) }}</span>
+                                            @elseif($appointment->status === 'completed')
+                                                <span class="badge bg-success">{{ ucfirst($appointment->status) }}</span>
+                                            @else
+                                                <span class="badge bg-danger">{{ ucfirst($appointment->status) }}</span>
+                                            @endif
                                         </td>
                                         <td>
-                                            <div class="action-buttons">
+                                            <div class="btn-group btn-group-sm">
                                                 @if($appointment->status === 'pending')
-                                                    <button class="btn btn-success btn-sm" 
+                                                    <button class="btn btn-success" 
                                                             onclick="updateAppointmentStatus({{ $appointment->id }}, 'confirmed')">
-                                                        <i class="fas fa-check"></i> Accept
+                                                        <i class="fas fa-check"></i>
                                                     </button>
-                                                    <button class="btn btn-danger btn-sm" 
+                                                    <button class="btn btn-danger" 
                                                             onclick="updateAppointmentStatus({{ $appointment->id }}, 'cancelled')">
-                                                        <i class="fas fa-times"></i> Reject
+                                                        <i class="fas fa-times"></i>
                                                     </button>
                                                 @elseif($appointment->status === 'confirmed')
-                                                    <button class="btn btn-primary btn-sm" 
+                                                    <button class="btn btn-primary" 
                                                             onclick="updateAppointmentStatus({{ $appointment->id }}, 'completed')">
-                                                        <i class="fas fa-check-double"></i> Complete
+                                                        <i class="fas fa-check-double"></i>
                                                     </button>
                                                 @endif
-                                                <button class="btn btn-info btn-sm" 
-                                                        onclick="viewAppointmentDetails({{ $appointment->id }})">
-                                                    <i class="fas fa-eye"></i> View
-                                                </button>
+                                                <a href="{{ route('employee.appointments.show', $appointment) }}" class="btn btn-info">
+                                                    <i class="fas fa-eye"></i>
+                                                </a>
                                             </div>
                                         </td>
                                     </tr>
@@ -260,17 +175,15 @@
                                 </tbody>
                             </table>
                         </div>
-                    @else
-                        <div class="text-center py-4">
-                            <i class="fas fa-calendar-times fa-3x text-muted mb-3"></i>
-                            <p class="text-muted">No appointments found</p>
+                        @else
+                        <div class="text-center py-5">
+                            <i class="fas fa-calendar-times fa-4x text-muted mb-3"></i>
+                            <h5>No Appointments Found</h5>
+                            <p class="text-muted">You don't have any appointments yet</p>
                         </div>
-                    @endif
+                        @endif
+                    </div>
                 </div>
-            </div>
-        </div>
-    </div>
-</div>
 
 <!-- New Appointment Modal -->
 <div class="modal fade" id="newAppointmentModal" tabindex="-1">
