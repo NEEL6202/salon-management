@@ -301,6 +301,27 @@ Route::middleware(['auth', 'role:salon_owner'])->prefix('salon')->name('salon.')
     Route::get('/profile', [SalonOwnerController::class, 'profile'])->name('profile');
     Route::put('/profile', [SalonOwnerController::class, 'updateProfile'])->name('profile.update');
     
+    // Analytics & Reports
+    Route::get('/analytics', [\App\Http\Controllers\Salon\SalonAnalyticsController::class, 'index'])->name('analytics.index');
+    Route::get('/analytics/export', [\App\Http\Controllers\Salon\SalonAnalyticsController::class, 'export'])->name('analytics.export');
+    
+    // Calendar & Schedule
+    Route::get('/calendar', [\App\Http\Controllers\Salon\SalonCalendarController::class, 'index'])->name('calendar.index');
+    Route::get('/calendar/events', [\App\Http\Controllers\Salon\SalonCalendarController::class, 'getEvents'])->name('calendar.events');
+    
+    // Customer Management
+    Route::get('/customers', [\App\Http\Controllers\Salon\SalonCustomerController::class, 'index'])->name('customers.index');
+    Route::get('/customers/create', [\App\Http\Controllers\Salon\SalonCustomerController::class, 'create'])->name('customers.create');
+    Route::post('/customers', [\App\Http\Controllers\Salon\SalonCustomerController::class, 'store'])->name('customers.store');
+    Route::get('/customers/{customer}', [\App\Http\Controllers\Salon\SalonCustomerController::class, 'show'])->name('customers.show');
+    Route::get('/customers/stats', [\App\Http\Controllers\Salon\SalonCustomerController::class, 'stats'])->name('customers.stats');
+    
+    // Settings
+    Route::get('/settings', [\App\Http\Controllers\Salon\SalonSettingsController::class, 'index'])->name('settings.index');
+    Route::put('/settings', [\App\Http\Controllers\Salon\SalonSettingsController::class, 'update'])->name('settings.update');
+    Route::get('/settings/business-hours', [\App\Http\Controllers\Salon\SalonSettingsController::class, 'businessHours'])->name('settings.business-hours');
+    Route::put('/settings/business-hours', [\App\Http\Controllers\Salon\SalonSettingsController::class, 'updateBusinessHours'])->name('settings.business-hours.update');
+    
     // Employee Management
     Route::get('/employees', [SalonOwnerController::class, 'employees'])->name('employees.index');
     Route::get('/employees/create', [SalonOwnerController::class, 'createEmployee'])->name('employees.create');

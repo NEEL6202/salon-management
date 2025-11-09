@@ -134,11 +134,25 @@
                             <span class="menu-text">Products</span>
                         </a>
                     </div>
+                    @role('salon_owner')
+                    <div class="menu-item">
+                        <a href="{{ route('salon.customers.index') }}" class="menu-link {{ request()->routeIs('salon.customers.*') ? 'active' : '' }}">
+                            <i class="menu-icon fas fa-user-friends"></i>
+                            <span class="menu-text">Customers</span>
+                        </a>
+                    </div>
+                    @endrole
                 </div>
                 
                 <!-- Operations -->
                 <div class="menu-section">
                     <div class="menu-section-title">Operations</div>
+                    <div class="menu-item">
+                        <a href="{{ route('salon.calendar.index') }}" class="menu-link {{ request()->routeIs('salon.calendar.*') ? 'active' : '' }}">
+                            <i class="menu-icon fas fa-calendar-alt"></i>
+                            <span class="menu-text">Calendar</span>
+                        </a>
+                    </div>
                     <div class="menu-item">
                         <a href="{{ route('salon.appointments.index') }}" class="menu-link {{ request()->routeIs('salon.appointments.*') ? 'active' : '' }}">
                             <i class="menu-icon fas fa-calendar-check"></i>
@@ -154,12 +168,35 @@
                 </div>
                 
                 @role('salon_owner')
+                <!-- Analytics -->
+                <div class="menu-section">
+                    <div class="menu-section-title">Insights</div>
+                    <div class="menu-item">
+                        <a href="{{ route('salon.analytics.index') }}" class="menu-link {{ request()->routeIs('salon.analytics.*') ? 'active' : '' }}">
+                            <i class="menu-icon fas fa-chart-line"></i>
+                            <span class="menu-text">Analytics</span>
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- Team -->
                 <div class="menu-section">
                     <div class="menu-section-title">Team</div>
                     <div class="menu-item">
                         <a href="{{ route('salon.employees.index') }}" class="menu-link {{ request()->routeIs('salon.employees.*') ? 'active' : '' }}">
                             <i class="menu-icon fas fa-users"></i>
                             <span class="menu-text">Employees</span>
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- Settings -->
+                <div class="menu-section">
+                    <div class="menu-section-title">System</div>
+                    <div class="menu-item">
+                        <a href="{{ route('salon.settings.index') }}" class="menu-link {{ request()->routeIs('salon.settings.*') ? 'active' : '' }}">
+                            <i class="menu-icon fas fa-cog"></i>
+                            <span class="menu-text">Settings</span>
                         </a>
                     </div>
                 </div>

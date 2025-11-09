@@ -1,36 +1,37 @@
-@extends('layouts.app')
+@extends('layouts.modern')
 
 @section('title', 'Services')
 
 @section('content')
-<div class="container-fluid">
-    <div class="row">
-        <div class="col-12">
-            <div class="card">
-                <div class="card-header">
-                    <div class="d-flex justify-content-between align-items-center">
-                        <h5 class="card-title mb-0">Services</h5>
-                        <a href="{{ route('salon.services.create') }}" class="btn btn-primary">
-                            <i class="fas fa-plus me-2"></i>Add Service
-                        </a>
-                    </div>
-                </div>
-                <div class="card-body">
-                    @if($services->count() > 0)
-                        <div class="table-responsive">
-                            <table class="table table-hover">
-                                <thead>
-                                    <tr>
-                                        <th>Image</th>
-                                        <th>Name</th>
-                                        <th>Category</th>
-                                        <th>Price</th>
-                                        <th>Duration</th>
-                                        <th>Status</th>
-                                        <th>Actions</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
+<div class="page-header">
+    <div>
+        <h1 class="page-title">Services</h1>
+        <p class="page-subtitle">Manage your salon services</p>
+    </div>
+    <div class="page-actions">
+        <a href="{{ route('salon.services.create') }}" class="btn btn-primary">
+            <i class="fas fa-plus"></i> Add Service
+        </a>
+    </div>
+</div>
+
+@if($services->count() > 0)
+<div class="card">
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Image</th>
+                        <th>Name</th>
+                        <th>Category</th>
+                        <th>Price</th>
+                        <th>Duration</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
                                     @foreach($services as $service)
                                         <tr>
                                             <td>
@@ -95,23 +96,24 @@
                                 </tbody>
                             </table>
                         </div>
-                        
-                        <div class="d-flex justify-content-center mt-4">
-                            {{ $services->links() }}
-                        </div>
-                    @else
-                        <div class="text-center py-5">
-                            <i class="fas fa-concierge-bell fa-3x text-muted mb-3"></i>
-                            <h4>No Services Found</h4>
-                            <p class="text-muted">You haven't added any services yet. Start by adding your first service.</p>
-                            <a href="{{ route('salon.services.create') }}" class="btn btn-primary">
-                                <i class="fas fa-plus me-2"></i>Add Your First Service
-                            </a>
-                        </div>
-                    @endif
-                </div>
-            </div>
-        </div>
+    </div>
+    
+    @if($services->hasPages())
+    <div class="card-footer">
+        {{ $services->links() }}
+    </div>
+    @endif
+</div>
+@else
+<div class="card">
+    <div class="card-body text-center py-5">
+        <i class="fas fa-concierge-bell fa-4x text-muted mb-3"></i>
+        <h4>No Services Found</h4>
+        <p class="text-muted">You haven't added any services yet. Start by adding your first service.</p>
+        <a href="{{ route('salon.services.create') }}" class="btn btn-primary">
+            <i class="fas fa-plus"></i> Add Your First Service
+        </a>
     </div>
 </div>
+@endif
 @endsection 

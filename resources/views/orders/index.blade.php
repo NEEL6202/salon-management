@@ -1,46 +1,36 @@
-@extends('layouts.app')
+@extends('layouts.modern')
 
 @section('title', 'Orders')
 
 @section('content')
-<div class="container-fluid">
-    <div class="d-flex justify-content-between align-items-center mb-4">
-        <h1 class="h3 mb-0">Orders</h1>
+<div class="page-header">
+    <div>
+        <h1 class="page-title">Orders</h1>
+        <p class="page-subtitle">Manage your product orders</p>
+    </div>
+    <div class="page-actions">
         <a href="{{ route('salon.orders.create') }}" class="btn btn-primary">
             <i class="fas fa-plus"></i> New Order
         </a>
     </div>
+</div>
 
-    @if(session('success'))
-        <div class="alert alert-success alert-dismissible fade show" role="alert">
-            {{ session('success') }}
-            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-        </div>
-    @endif
-
-    @if(session('error'))
-        <div class="alert alert-danger alert-dismissible fade show" role="alert">
-            {{ session('error') }}
-            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-        </div>
-    @endif
-
-    <div class="card">
-        <div class="card-body">
-            <div class="table-responsive">
-                <table class="table table-striped">
-                    <thead>
-                        <tr>
-                            <th>Order ID</th>
-                            <th>Customer</th>
-                            <th>Items</th>
-                            <th>Total Amount</th>
-                            <th>Status</th>
-                            <th>Date</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
+<div class="card">
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Order ID</th>
+                        <th>Customer</th>
+                        <th>Items</th>
+                        <th>Total Amount</th>
+                        <th>Status</th>
+                        <th>Date</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
                         @forelse($orders as $order)
                             <tr>
                                 <td>#{{ $order->id }}</td>
@@ -71,21 +61,23 @@
                                     </div>
                                 </td>
                             </tr>
-                        @empty
-                            <tr>
-                                <td colspan="7" class="text-center">No orders found.</td>
-                            </tr>
-                        @endforelse
-                    </tbody>
-                </table>
-            </div>
-
-            @if($orders->hasPages())
-                <div class="d-flex justify-content-center mt-4">
-                    {{ $orders->links() }}
-                </div>
-            @endif
+                    @empty
+                        <tr>
+                            <td colspan="7" class="text-center py-4">
+                                <i class="fas fa-shopping-cart fa-3x text-muted mb-3 d-block"></i>
+                                <p class="text-muted">No orders found.</p>
+                            </td>
+                        </tr>
+                    @endforelse
+                </tbody>
+            </table>
         </div>
     </div>
+    
+    @if($orders->hasPages())
+    <div class="card-footer">
+        {{ $orders->links() }}
+    </div>
+    @endif
 </div>
 @endsection 

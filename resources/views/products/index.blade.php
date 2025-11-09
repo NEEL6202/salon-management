@@ -1,37 +1,38 @@
-@extends('layouts.app')
+@extends('layouts.modern')
 
 @section('title', 'Products')
 
 @section('content')
-<div class="container-fluid">
-    <div class="row">
-        <div class="col-12">
-            <div class="card">
-                <div class="card-header">
-                    <div class="d-flex justify-content-between align-items-center">
-                        <h5 class="card-title mb-0">Products</h5>
-                        <a href="{{ route('salon.products.create') }}" class="btn btn-primary">
-                            <i class="fas fa-plus me-2"></i>Add Product
-                        </a>
-                    </div>
-                </div>
-                <div class="card-body">
-                    @if($products->count() > 0)
-                        <div class="table-responsive">
-                            <table class="table table-hover">
-                                <thead>
-                                    <tr>
-                                        <th>Image</th>
-                                        <th>Name</th>
-                                        <th>Category</th>
-                                        <th>SKU</th>
-                                        <th>Price</th>
-                                        <th>Stock</th>
-                                        <th>Status</th>
-                                        <th>Actions</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
+<div class="page-header">
+    <div>
+        <h1 class="page-title">Products</h1>
+        <p class="page-subtitle">Manage your salon products</p>
+    </div>
+    <div class="page-actions">
+        <a href="{{ route('salon.products.create') }}" class="btn btn-primary">
+            <i class="fas fa-plus"></i> Add Product
+        </a>
+    </div>
+</div>
+
+@if($products->count() > 0)
+<div class="card">
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Image</th>
+                        <th>Name</th>
+                        <th>Category</th>
+                        <th>SKU</th>
+                        <th>Price</th>
+                        <th>Stock</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
                                     @foreach($products as $product)
                                         <tr>
                                             <td>
@@ -101,27 +102,29 @@
                                                 </div>
                                             </td>
                                         </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
-                        </div>
-                        
-                        <div class="d-flex justify-content-center mt-4">
-                            {{ $products->links() }}
-                        </div>
-                    @else
-                        <div class="text-center py-5">
-                            <i class="fas fa-box fa-3x text-muted mb-3"></i>
-                            <h4>No Products Found</h4>
-                            <p class="text-muted">You haven't added any products yet. Start by adding your first product.</p>
-                            <a href="{{ route('salon.products.create') }}" class="btn btn-primary">
-                                <i class="fas fa-plus me-2"></i>Add Your First Product
-                            </a>
-                        </div>
-                    @endif
-                </div>
-            </div>
+                    @endforeach
+                </tbody>
+            </table>
         </div>
     </div>
+    
+    @if($products->hasPages())
+    <div class="card-footer">
+        {{ $products->links() }}
+    </div>
+    @endif
 </div>
+@else
+<div class="card">
+    <div class="card-body text-center py-5">
+        <i class="fas fa-box fa-4x text-muted mb-3"></i>
+        <h4>No Products Found</h4>
+        <p class="text-muted">You haven't added any products yet. Start by adding your first product.</p>
+        <a href="{{ route('salon.products.create') }}" class="btn btn-primary">
+            <i class="fas fa-plus"></i> Add Your First Product
+        </a>
+    </div>
+</div>
+@endif
 @endsection 
+

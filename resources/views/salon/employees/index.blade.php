@@ -1,22 +1,22 @@
-@extends('layouts.app')
+@extends('layouts.modern')
 
 @section('title', 'Employee Management')
 
 @section('content')
-<div class="container-fluid">
-    <div class="row">
-        <div class="col-12">
-            <div class="d-flex justify-content-between align-items-center mb-4">
-                <h1 class="h3 mb-0">Employee Management</h1>
-                <a href="{{ route('salon.employees.create') }}" class="btn btn-primary">
-                    <i class="fas fa-user-plus"></i> Add Employee
-                </a>
-            </div>
-        </div>
+<div class="page-header">
+    <div>
+        <h1 class="page-title">Employee Management</h1>
+        <p class="page-subtitle">Manage your salon team</p>
     </div>
+    <div class="page-actions">
+        <a href="{{ route('salon.employees.create') }}" class="btn btn-primary">
+            <i class="fas fa-user-plus"></i> Add Employee
+        </a>
+    </div>
+</div>
 
-    <!-- Statistics Cards -->
-    <div class="row mb-4">
+<!-- Statistics Cards -->
+<div class="row g-3 mb-4">
         <div class="col-md-3">
             <div class="card bg-primary text-white">
                 <div class="card-body">

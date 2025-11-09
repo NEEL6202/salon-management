@@ -1,37 +1,38 @@
-@extends('layouts.app')
+@extends('layouts.modern')
 
 @section('title', 'Appointments')
 
 @section('content')
-<div class="container-fluid">
-    <div class="row">
-        <div class="col-12">
-            <div class="card">
-                <div class="card-header">
-                    <div class="d-flex justify-content-between align-items-center">
-                        <h5 class="card-title mb-0">Appointments</h5>
-                        <a href="{{ route('salon.appointments.create') }}" class="btn btn-primary">
-                            <i class="fas fa-plus me-2"></i>Book Appointment
-                        </a>
-                    </div>
-                </div>
-                <div class="card-body">
-                    @if($appointments->count() > 0)
-                        <div class="table-responsive">
-                            <table class="table table-hover">
-                                <thead>
-                                    <tr>
-                                        <th>Customer</th>
-                                        <th>Service</th>
-                                        <th>Date & Time</th>
-                                        <th>Employee</th>
-                                        <th>Status</th>
-                                        <th>Amount</th>
-                                        <th>Payment</th>
-                                        <th>Actions</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
+<div class="page-header">
+    <div>
+        <h1 class="page-title">Appointments</h1>
+        <p class="page-subtitle">Manage your salon appointments</p>
+    </div>
+    <div class="page-actions">
+        <a href="{{ route('salon.appointments.create') }}" class="btn btn-primary">
+            <i class="fas fa-plus"></i> Book Appointment
+        </a>
+    </div>
+</div>
+
+@if($appointments->count() > 0)
+<div class="card">
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Customer</th>
+                        <th>Service</th>
+                        <th>Date & Time</th>
+                        <th>Employee</th>
+                        <th>Status</th>
+                        <th>Amount</th>
+                        <th>Payment</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
                                     @foreach($appointments as $appointment)
                                         <tr>
                                             <td>
@@ -89,27 +90,28 @@
                                                 </div>
                                             </td>
                                         </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
-                        </div>
-                        
-                        <div class="d-flex justify-content-center mt-4">
-                            {{ $appointments->links() }}
-                        </div>
-                    @else
-                        <div class="text-center py-5">
-                            <i class="fas fa-calendar-alt fa-3x text-muted mb-3"></i>
-                            <h4>No Appointments Found</h4>
-                            <p class="text-muted">You haven't booked any appointments yet. Start by booking your first appointment.</p>
-                            <a href="{{ route('salon.appointments.create') }}" class="btn btn-primary">
-                                <i class="fas fa-plus me-2"></i>Book Your First Appointment
-                            </a>
-                        </div>
-                    @endif
-                </div>
-            </div>
+                    @endforeach
+                </tbody>
+            </table>
         </div>
     </div>
+    
+    @if($appointments->hasPages())
+    <div class="card-footer">
+        {{ $appointments->links() }}
+    </div>
+    @endif
 </div>
+@else
+<div class="card">
+    <div class="card-body text-center py-5">
+        <i class="fas fa-calendar-alt fa-4x text-muted mb-3"></i>
+        <h4>No Appointments Found</h4>
+        <p class="text-muted">You haven't booked any appointments yet. Start by booking your first appointment.</p>
+        <a href="{{ route('salon.appointments.create') }}" class="btn btn-primary">
+            <i class="fas fa-plus"></i> Book Your First Appointment
+        </a>
+    </div>
+</div>
+@endif
 @endsection 
