@@ -39,11 +39,11 @@
                                                     <img src="{{ Storage::url($service->image) }}" 
                                                          alt="{{ $service->name }}" 
                                                          class="rounded" 
-                                                         style="width: 50px; height: 50px; object-fit: cover;">
+                                                         style="width: 32px; height: 32px; object-fit: cover;">
                                                 @else
                                                     <div class="bg-secondary rounded d-flex align-items-center justify-content-center" 
-                                                         style="width: 50px; height: 50px;">
-                                                        <i class="fas fa-image text-white"></i>
+                                                         style="width: 32px; height: 32px;">
+                                                        <i class="fas fa-image text-white" style="font-size: 16px;"></i>
                                                     </div>
                                                 @endif
                                             </td>
@@ -54,7 +54,24 @@
                                                 </div>
                                             </td>
                                             <td>
-                                                <span class="badge bg-info">{{ ucfirst($service->category) }}</span>
+                                                <div class="d-flex align-items-center">
+                                                    <div class="me-2">
+                                                        @if($service->category == 'hair')
+                                                            <i class="fas fa-cut text-info"></i>
+                                                        @elseif($service->category == 'nails')
+                                                            <i class="fas fa-hand-paper text-warning"></i>
+                                                        @elseif($service->category == 'facial')
+                                                            <i class="fas fa-smile text-success"></i>
+                                                        @elseif($service->category == 'massage')
+                                                            <i class="fas fa-spa text-primary"></i>
+                                                        @elseif($service->category == 'makeup')
+                                                            <i class="fas fa-paint-brush text-danger"></i>
+                                                        @else
+                                                            <i class="fas fa-concierge-bell text-secondary"></i>
+                                                        @endif
+                                                    </div>
+                                                    <span class="badge bg-info">{{ ucfirst($service->category) }}</span>
+                                                </div>
                                             </td>
                                             <td>
                                                 <span class="fw-bold text-success">${{ number_format($service->price, 2) }}</span>

@@ -56,6 +56,11 @@ class Appointment extends Model
         return $this->belongsTo(Service::class);
     }
 
+    public function reviews()
+    {
+        return $this->hasMany(Review::class);
+    }
+
     public function getFormattedDateAttribute()
     {
         return $this->appointment_date->format('M d, Y');

@@ -87,6 +87,26 @@ class User extends Authenticatable
         return $this->hasMany(InventoryTransaction::class);
     }
 
+    public function loyaltyPoints()
+    {
+        return $this->hasMany(LoyaltyPoint::class);
+    }
+
+    public function loyaltyRewards()
+    {
+        return $this->hasMany(LoyaltyReward::class);
+    }
+
+    public function giftCards()
+    {
+        return $this->hasMany(GiftCard::class, 'customer_id');
+    }
+
+    public function reviews()
+    {
+        return $this->hasMany(Review::class, 'customer_id');
+    }
+
     public function isSuperAdmin()
     {
         return $this->hasRole('super_admin');

@@ -95,6 +95,21 @@ class Salon extends Model
         return $this->belongsTo(SubscriptionPlan::class);
     }
 
+    public function loyaltyPrograms()
+    {
+        return $this->hasMany(LoyaltyProgram::class);
+    }
+
+    public function giftCards()
+    {
+        return $this->hasMany(GiftCard::class);
+    }
+
+    public function reviews()
+    {
+        return $this->hasMany(Review::class);
+    }
+
     public function activeSubscription()
     {
         return $this->subscriptions()->where('status', 'active')->latest()->first();

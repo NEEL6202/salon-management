@@ -19,6 +19,9 @@ use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\AdminUserController;
 use App\Http\Controllers\AdminAnalyticsController;
 use App\Http\Controllers\EmployeeController;
+use App\Http\Controllers\LoyaltyProgramController;
+use App\Http\Controllers\GiftCardController;
+use App\Http\Controllers\ReviewController;
 use Illuminate\Support\Facades\Route;
 
 // Public routes
@@ -342,6 +345,23 @@ Route::middleware(['auth', 'role:salon_owner'])->prefix('salon')->name('salon.')
     
     // Orders
     Route::resource('orders', OrderController::class);
+    
+    // Loyalty Program
+    Route::resource('loyalty', LoyaltyProgramController::class);
+    Route::post('/loyalty/{loyaltyProgram}/award-points', [LoyaltyProgramController::class, 'awardPoints'])->name('loyalty.award-points');
+    Route::post('/loyalty/{loyaltyProgram}/redeem-points', [LoyaltyProgramController::class, 'redeemPoints'])->name('loyalty.redeem-points');
+    Route::get('/loyalty/{loyaltyProgram}/customer-points/{userId}', [LoyaltyProgramController::class, 'customerPoints'])->name('loyalty.customer-points');
+    
+    // Gift Cards
+    Route::resource('gift-cards', GiftCardController::class);
+    Route::post('/gift-cards/{giftCard}/redeem', [GiftCardController::class, 'redeem'])->name('gift-cards.redeem');
+    Route::post('/gift-cards/apply', [GiftCardController::class, 'apply'])->name('gift-cards.apply');
+    
+    // Reviews
+    Route::resource('reviews', ReviewController::class);
+    Route::post('/reviews/{review}/approve', [ReviewController::class, 'approve'])->name('reviews.approve');
+    Route::post('/reviews/{review}/feature', [ReviewController::class, 'feature'])->name('reviews.feature');
+    Route::get('/reviews/stats', [ReviewController::class, 'stats'])->name('reviews.stats');
 });
 
 // Salon Employee routes (for both manager and employee roles)

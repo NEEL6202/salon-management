@@ -14,6 +14,8 @@ class DatabaseSeeder extends Seeder
             SuperAdminSeeder::class,
             SystemSettingsSeeder::class,
             TestSalonOwnerSeeder::class,
+            SmsSettingsSeeder::class,
+            SalonDummyDataSeeder::class,
         ]);
     }
 }

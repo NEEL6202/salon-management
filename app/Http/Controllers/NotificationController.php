@@ -15,6 +15,7 @@ use App\Mail\AppointmentReminder;
 use App\Mail\SubscriptionExpiry;
 use App\Mail\PaymentFailed;
 use App\Mail\WelcomeEmail;
+use App\Services\SmsService;
 
 class NotificationController extends Controller
 {
@@ -239,6 +240,115 @@ class NotificationController extends Controller
             Log::info("New order notification sent for order ID: {$order->id}");
         } catch (\Exception $e) {
             Log::error("Failed to send new order notification: " . $e->getMessage());
+        }
+    }
+
+    public static function sendSmsAppointmentConfirmation(Appointment $appointment)
+    {
+        try {
+            $user = $appointment->user;
+            $salon = $appointment->salon;
+
+            // Send SMS
+            $smsService = new SmsService();
+            $smsService->sendAppointmentConfirmation($appointment);
+
+            Log::info("Appointment confirmation SMS sent for appointment ID: {$appointment->id}");
+        } catch (\Exception $e) {
+            Log::error("Failed to send appointment confirmation SMS: " . $e->getMessage());
+        }
+    }
+
+    public static function sendSmsAppointmentReminder(Appointment $appointment)
+    {
+        try {
+            $user = $appointment->user;
+            $salon = $appointment->salon;
+
+            // Send SMS
+            $smsService = new SmsService();
+            $smsService->sendAppointmentReminder($appointment);
+
+            Log::info("Appointment reminder SMS sent for appointment ID: {$appointment->id}");
+        } catch (\Exception $e) {
+            Log::error("Failed to send appointment reminder SMS: " . $e->getMessage());
+        }
+    }
+
+    public static function sendSmsSubscriptionExpiry(Subscription $subscription)
+    {
+        try {
+            $salon = $subscription->salon;
+            $owner = $salon->owner;
+
+            // Send SMS
+            $smsService = new SmsService();
+            $smsService->sendSubscriptionExpiry($subscription);
+
+            Log::info("Subscription expiry SMS sent for subscription ID: {$subscription->id}");
+        } catch (\Exception $e) {
+            Log::error("Failed to send subscription expiry SMS: " . $e->getMessage());
+        }
+    }
+
+    public static function sendSmsPaymentFailed(Subscription $subscription)
+    {
+        try {
+            $salon = $subscription->salon;
+            $owner = $salon->owner;
+
+            // Send SMS
+            $smsService = new SmsService();
+            $smsService->sendPaymentFailed($subscription);
+
+            Log::info("Payment failed SMS sent for subscription ID: {$subscription->id}");
+        } catch (\Exception $e) {
+            Log::error("Failed to send payment failed SMS: " . $e->getMessage());
+        }
+    }
+
+    public static function sendSmsWelcome(User $user)
+    {
+        try {
+            // Send welcome SMS
+            $smsService = new SmsService();
+            $smsService->sendWelcomeSms($user);
+
+            Log::info("Welcome SMS sent for user ID: {$user->id}");
+        } catch (\Exception $e) {
+            Log::error("Failed to send welcome SMS: " . $e->getMessage());
+        }
+    }
+
+    public static function sendSmsLowStockAlert($product)
+    {
+        try {
+            $salon = $product->salon;
+            $owner = $salon->owner;
+
+            // Send SMS
+            $smsService = new SmsService();
+            $smsService->sendLowStockAlert($product);
+
+            Log::info("Low stock alert SMS sent for product ID: {$product->id}");
+        } catch (\Exception $e) {
+            Log::error("Failed to send low stock alert SMS: " . $e->getMessage());
+        }
+    }
+
+    public static function sendSmsNewOrderNotification($order)
+    {
+        try {
+            $salon = $order->salon;
+            $owner = $salon->owner;
+
+            // Send SMS
+            $smsService = new SmsService();
+            $smsService->sendNewOrderNotification($order);
+
+            Log::info("New order notification SMS sent for order ID: {$order->id}");
+        } catch (\Exception $e) {
+            Log::error("Failed to send new order notification SMS: " . $e->getMessage());
         }
     }
 

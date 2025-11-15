@@ -214,6 +214,29 @@
                     </div>
                 </div>
                 
+                <!-- Customer Engagement -->
+                <div class="menu-section">
+                    <div class="menu-section-title">Customer Engagement</div>
+                    <div class="menu-item">
+                        <a href="{{ route('salon.loyalty.index') }}" class="menu-link {{ request()->routeIs('salon.loyalty.*') ? 'active' : '' }}">
+                            <i class="menu-icon fas fa-star"></i>
+                            <span class="menu-text">Loyalty Programs</span>
+                        </a>
+                    </div>
+                    <div class="menu-item">
+                        <a href="{{ route('salon.gift-cards.index') }}" class="menu-link {{ request()->routeIs('salon.gift-cards.*') ? 'active' : '' }}">
+                            <i class="menu-icon fas fa-gift"></i>
+                            <span class="menu-text">Gift Cards</span>
+                        </a>
+                    </div>
+                    <div class="menu-item">
+                        <a href="{{ route('salon.reviews.index') }}" class="menu-link {{ request()->routeIs('salon.reviews.*') ? 'active' : '' }}">
+                            <i class="menu-icon fas fa-comment"></i>
+                            <span class="menu-text">Reviews</span>
+                        </a>
+                    </div>
+                </div>
+                
                 <!-- Team -->
                 <div class="menu-section">
                     <div class="menu-section-title">Team</div>
@@ -221,6 +244,17 @@
                         <a href="{{ route('salon.employees.index') }}" class="menu-link {{ request()->routeIs('salon.employees.*') ? 'active' : '' }}">
                             <i class="menu-icon fas fa-users"></i>
                             <span class="menu-text">Employees</span>
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- Communications -->
+                <div class="menu-section">
+                    <div class="menu-section-title">Communications</div>
+                    <div class="menu-item">
+                        <a href="{{ route('notifications.index') }}" class="menu-link {{ request()->routeIs('notifications.*') ? 'active' : '' }}">
+                            <i class="menu-icon fas fa-bell"></i>
+                            <span class="menu-text">Notifications</span>
                         </a>
                     </div>
                 </div>

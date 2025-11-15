@@ -74,7 +74,7 @@ class SalonAnalyticsController extends Controller
 
     private function getRevenueAnalytics($salon, $startDate, $endDate)
     {
-        $revenue = Order::where('salon_id', $salon->id)
+        $revenue = Order::where('orders.salon_id', $salon->id)
             ->where('payment_status', 'paid')
             ->whereBetween('created_at', [$startDate, $endDate])
             ->selectRaw('DATE(created_at) as date, SUM(total_amount) as total')
@@ -82,7 +82,7 @@ class SalonAnalyticsController extends Controller
             ->orderBy('date')
             ->get();
 
-        $appointmentRevenue = Appointment::where('salon_id', $salon->id)
+        $appointmentRevenue = Appointment::where('appointments.salon_id', $salon->id)
             ->where('payment_status', 'paid')
             ->whereBetween('created_at', [$startDate, $endDate])
             ->selectRaw('DATE(created_at) as date, SUM(final_amount) as total')
@@ -91,7 +91,7 @@ class SalonAnalyticsController extends Controller
             ->get();
 
         $totalRevenue = $revenue->sum('total') + $appointmentRevenue->sum('total');
-        $totalOrders = Order::where('salon_id', $salon->id)
+        $totalOrders = Order::where('orders.salon_id', $salon->id)
             ->where('payment_status', 'paid')
             ->whereBetween('created_at', [$startDate, $endDate])
             ->count();
@@ -107,7 +107,7 @@ class SalonAnalyticsController extends Controller
 
     private function getAppointmentAnalytics($salon, $startDate, $endDate)
     {
-        $appointments = Appointment::where('salon_id', $salon->id)
+        $appointments = Appointment::where('appointments.salon_id', $salon->id)
             ->whereBetween('created_at', [$startDate, $endDate]);
 
         $totalAppointments = $appointments->count();
@@ -130,23 +130,26 @@ class SalonAnalyticsController extends Controller
 
     private function getEmployeePerformance($salon, $startDate, $endDate)
     {
-        $employees = User::where('salon_id', $salon->id)
+        $employees = User::where('users.salon_id', $salon->id)
             ->whereHas('roles', function($q) {
                 $q->whereIn('name', ['manager', 'employee']);
             })
             ->withCount([
-                'appointments as total_appointments' => function($q) use ($startDate, $endDate) {
-                    $q->whereBetween('created_at', [$startDate, $endDate]);
+                'appointments as total_appointments' => function($q) use ($startDate, $endDate, $salon) {
+                    $q->where('salon_id', $salon->id)
+                      ->whereBetween('created_at', [$startDate, $endDate]);
                 },
-                'appointments as completed_appointments' => function($q) use ($startDate, $endDate) {
-                    $q->where('status', 'completed')
-                        ->whereBetween('created_at', [$startDate, $endDate]);
+                'appointments as completed_appointments' => function($q) use ($startDate, $endDate, $salon) {
+                    $q->where('salon_id', $salon->id)
+                      ->where('status', 'completed')
+                      ->whereBetween('created_at', [$startDate, $endDate]);
                 }
             ])
             ->get();
 
-        return $employees->map(function($employee) use ($startDate, $endDate) {
+        return $employees->map(function($employee) use ($startDate, $endDate, $salon) {
             $revenue = Appointment::where('employee_id', $employee->id)
+                ->where('salon_id', $salon->id)
                 ->where('payment_status', 'paid')
                 ->whereBetween('created_at', [$startDate, $endDate])
                 ->sum('final_amount');
@@ -163,10 +166,11 @@ class SalonAnalyticsController extends Controller
 
     private function getServicePopularity($salon, $startDate, $endDate)
     {
-        return Service::where('salon_id', $salon->id)
+        return Service::where('services.salon_id', $salon->id)
             ->withCount([
-                'appointments as bookings' => function($q) use ($startDate, $endDate) {
-                    $q->whereBetween('created_at', [$startDate, $endDate]);
+                'appointments as bookings' => function($q) use ($startDate, $endDate, $salon) {
+                    $q->where('salon_id', $salon->id)
+                      ->whereBetween('created_at', [$startDate, $endDate]);
                 }
             ])
             ->having('bookings', '>', 0)
@@ -177,14 +181,13 @@ class SalonAnalyticsController extends Controller
 
     private function getProductSales($salon, $startDate, $endDate)
     {
-        return Product::where('salon_id', $salon->id)
-            ->select('products.*')
+        return Product::where('products.salon_id', $salon->id)
             ->join('order_items', 'products.id', '=', 'order_items.product_id')
             ->join('orders', 'order_items.order_id', '=', 'orders.id')
             ->where('orders.salon_id', $salon->id)
             ->whereBetween('orders.created_at', [$startDate, $endDate])
-            ->selectRaw('products.*, SUM(order_items.quantity) as total_sold, SUM(order_items.subtotal) as revenue')
-            ->groupBy('products.id')
+            ->selectRaw('products.id, products.name, products.sku, SUM(order_items.quantity) as total_sold, SUM(order_items.total_price) as revenue')
+            ->groupBy('products.id', 'products.name', 'products.sku')
             ->orderByDesc('total_sold')
             ->take(10)
             ->get();
@@ -192,12 +195,12 @@ class SalonAnalyticsController extends Controller
 
     private function getCustomerAnalytics($salon, $startDate, $endDate)
     {
-        $newCustomers = Appointment::where('salon_id', $salon->id)
+        $newCustomers = Appointment::where('appointments.salon_id', $salon->id)
             ->whereBetween('created_at', [$startDate, $endDate])
             ->distinct('customer_id')
             ->count('customer_id');
 
-        $returningCustomers = Appointment::where('salon_id', $salon->id)
+        $returningCustomers = Appointment::where('appointments.salon_id', $salon->id)
             ->whereBetween('created_at', [$startDate, $endDate])
             ->select('customer_id')
             ->groupBy('customer_id')
@@ -206,12 +209,12 @@ class SalonAnalyticsController extends Controller
             ->count();
 
         $topCustomers = User::whereHas('appointments', function($q) use ($salon, $startDate, $endDate) {
-                $q->where('salon_id', $salon->id)
+                $q->where('appointments.salon_id', $salon->id)
                     ->whereBetween('created_at', [$startDate, $endDate]);
             })
             ->withCount([
                 'appointments as visit_count' => function($q) use ($salon, $startDate, $endDate) {
-                    $q->where('salon_id', $salon->id)
+                    $q->where('appointments.salon_id', $salon->id)
                         ->whereBetween('created_at', [$startDate, $endDate]);
                 }
             ])

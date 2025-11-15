@@ -124,6 +124,23 @@
                             </a>
                         </div>
                         
+                        <!-- Customer Engagement -->
+                        <div class="nav-section">
+                            <div class="nav-section-title">Customer Engagement</div>
+                            <a href="{{ route('salon.loyalty.index') }}" class="nav-link {{ request()->routeIs('salon.loyalty.*') ? 'active' : '' }}">
+                                <i class="fas fa-star nav-icon"></i>
+                                <span class="nav-text">Loyalty Programs</span>
+                            </a>
+                            <a href="{{ route('salon.gift-cards.index') }}" class="nav-link {{ request()->routeIs('salon.gift-cards.*') ? 'active' : '' }}">
+                                <i class="fas fa-gift nav-icon"></i>
+                                <span class="nav-text">Gift Cards</span>
+                            </a>
+                            <a href="{{ route('salon.reviews.index') }}" class="nav-link {{ request()->routeIs('salon.reviews.*') ? 'active' : '' }}">
+                                <i class="fas fa-comment nav-icon"></i>
+                                <span class="nav-text">Reviews</span>
+                            </a>
+                        </div>
+                        
                         @role('salon_owner')
                         <!-- Team -->
                         <div class="nav-section">
@@ -131,6 +148,15 @@
                             <a href="{{ route('salon.employees.index') }}" class="nav-link {{ request()->routeIs('salon.employees.*') ? 'active' : '' }}">
                                 <i class="fas fa-users nav-icon"></i>
                                 <span class="nav-text">Employees</span>
+                            </a>
+                        </div>
+                        
+                        <!-- Communications -->
+                        <div class="nav-section">
+                            <div class="nav-section-title">Communications</div>
+                            <a href="{{ route('notifications.index') }}" class="nav-link {{ request()->routeIs('notifications.*') ? 'active' : '' }}">
+                                <i class="fas fa-bell nav-icon"></i>
+                                <span class="nav-text">Notifications</span>
                             </a>
                         </div>
                         @endrole
