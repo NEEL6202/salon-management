@@ -15,10 +15,9 @@ class ServiceController extends Controller
         $user = Auth::user();
         
         if ($user->hasRole('super_admin')) {
-            $services = Service::with(['salon', 'category'])->paginate(10);
+            $services = Service::with(['salon'])->paginate(10);
         } else {
             $services = Service::where('salon_id', $user->salon_id)
-                ->with(['category'])
                 ->paginate(10);
         }
         
@@ -60,7 +59,7 @@ class ServiceController extends Controller
 
     public function show(Service $service)
     {
-        $service->load(['salon', 'category']);
+        $service->load(['salon']);
         return view('services.show', compact('service'));
     }
 
